@@ -51,7 +51,7 @@ export default class App extends Component {
 
     const query = params.join('&')
     const url = `${baseUrl}?${query}`
-
+    console.log(url)
     fetch(url)
       .then(res => {
         if(!res.ok) {
@@ -60,11 +60,16 @@ export default class App extends Component {
         return res.json()
       })
       .then(data => {
+        if(data.length === 0){
+          this.setState({
+            error: 'No results could be found'
+          })
+        } else {
         this.setState({
           apps: data,
           error: null
         })
-      })
+      }})
       .catch(err => {
         this.setState({
           error: 'Sorry, could not get apps at this time'
